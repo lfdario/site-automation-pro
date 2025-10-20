@@ -1,4 +1,3 @@
-
 name: Publish Site
 on:
   schedule:
@@ -10,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+  PYTHONPATH: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,11 +23,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Generate posts
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          python scripts/generate_posts.py --count 2
+     - name: Generate today's posts (2 articles)
+  env:
+    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  run: |
+    python -m scripts.generate_posts --count 2
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
