@@ -1,8 +1,12 @@
 
-baseURL = "/"
+baseURL = "https://lfdario.github.io/site-automation-pro/"
 languageCode = "it-it"
 title = "Guida Tech & AI — Italia"
 theme = "ananke"
+
+# forza URL assoluti corretti
+canonifyURLs = true
+
 summaryLength = 30
 paginate = 10
 DefaultContentLanguage = "it"
