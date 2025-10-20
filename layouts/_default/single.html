@@ -11,15 +11,16 @@
         {{- $paras := split .Content "</p>" -}}
         {{- $insertPositions := .Site.Params.ads.insert_after_paragraphs | default (slice 2 5) -}}
         {{- $count := 0 -}}
-        {{- range $i, $p := $paras -}}
-          {{- if ne $p "" -}}
-            {{ $p | safeHTML }}{{ "</p>" | safeHTML }}
-            {{- $count = add $count 1 -}}
-            {{- if in $insertPositions $count -}}
-              {{ partial "ads/ads_inarticle.html" . }}
-            {{- end -}}
-          {{- end -}}
-        {{- end -}}
+        {{- $root := . -}}  {{/* salva il contesto pagina/sito */}}
+{{- range $i, $p := $paras -}}
+  {{- if ne $p "" -}}
+    {{ $p | safeHTML }}{{ "</p>" | safeHTML }}
+    {{- $count = add $count 1 -}}
+    {{- if in $insertPositions $count -}}
+      {{ partial "ads/ads_inarticle.html" $root }}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
       </div>
     </article>
   </main>
