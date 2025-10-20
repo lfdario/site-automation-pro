@@ -1,0 +1,26 @@
+
+{{ define "main" }}
+  <main class="pb7" role="main">
+    <article class="mw8 center ph3 pv4">
+      <header>
+        <h1 class="f2">{{ .Title }}</h1>
+        <p class="mid-gray f6">{{ .Date.Format "02 January 2006" }} • {{ .ReadingTime }} min</p>
+      </header>
+      {{ partial "ads/ads_header.html" . }}
+      <div class="post-content lh-copy f5 measure">
+        {{- $paras := split .Content "</p>" -}}
+        {{- $insertPositions := .Site.Params.ads.insert_after_paragraphs | default (slice 2 5) -}}
+        {{- $count := 0 -}}
+        {{- range $i, $p := $paras -}}
+          {{- if ne $p "" -}}
+            {{ $p | safeHTML }}{{ "</p>" | safeHTML }}
+            {{- $count = add $count 1 -}}
+            {{- if in $insertPositions $count -}}
+              {{ partial "ads/ads_inarticle.html" . }}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      </div>
+    </article>
+  </main>
+{{ end }}

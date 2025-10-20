@@ -1,0 +1,23 @@
+
+language: "it"
+site_name: "Guida Tech & AI — Italia"
+niche: "Tecnologia pratica, AI e guide passo-passo"
+use_ai: true
+model: "gpt-4o-mini"
+daily_count: 2
+min_words: 900
+max_words: 1400
+tone: "chiaro, pratico, con esempi. Niente fuffa."
+images:
+  enabled: true
+  provider: "placeholder"
+seo:
+  include_faq_schema: true
+  include_howto_schema: true
+ads:
+  enabled: true
+  insert_after_paragraphs: [2, 5]
+topics_strategy:
+  mode: "mix"
+  ai_trend_enhance: true
+  target_keywords_per_post: 3

@@ -1,0 +1,24 @@
+
+baseURL = "/"
+languageCode = "it-it"
+title = "Guida Tech & AI — Italia"
+theme = "ananke"
+summaryLength = 30
+paginate = 10
+DefaultContentLanguage = "it"
+enableRobotsTXT = true
+
+[params]
+  description = "Guide pratiche su tecnologia, AI e risparmio digitale per utenti italiani. Articoli nuovi ogni giorno."
+  author = "Redazione Automatica"
+  background_color_class = "bg-near-white"
+  mainSections = ["posts"]
+  [params.ads]
+    insert_after_paragraphs = [2,5]
+
+[markup]
+  [markup.goldmark.renderer]
+    unsafe = true
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]

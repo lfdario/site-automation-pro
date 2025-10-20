@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — Traffico & Ricavi</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Dashboard — Traffico & Ricavi</h1>
+    <p>Visualizza dati ultimi 30 giorni (GA4) e ricavi AdSense.</p>
+  </header>
+  <main>
+    <section class="cards">
+      <div class="card">
+        <h3>Utenti (30g)</h3>
+        <div id="users">—</div>
+      </div>
+      <div class="card">
+        <h3>Sessioni (30g)</h3>
+        <div id="sessions">—</div>
+      </div>
+      <div class="card">
+        <h3>Pageviews (30g)</h3>
+        <div id="pageviews">—</div>
+      </div>
+      <div class="card">
+        <h3>Ricavi stimati (30g)</h3>
+        <div id="revenue">—</div>
+      </div>
+    </section>
+
+    <section class="charts">
+      <canvas id="trafficChart"></canvas>
+      <canvas id="revenueChart"></canvas>
+    </section>
+  </main>
+
+  <footer>
+    <p>Aggiornato ogni 3 ore via GitHub Actions.</p>
+  </footer>
+  <script src="./app.js"></script>
+</body>
+</html>
