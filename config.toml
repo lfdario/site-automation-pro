@@ -2,7 +2,9 @@ baseURL = "https://lfdario.github.io/site-automation-pro/"
 title = "Motori • News, Prove, Elettrico"
 theme = "blowfish"
 languageCode = "it"
-paginate = 12
+
+[pagination]
+  pagerSize = 12  # ← al posto di 'paginate = 12'
 
 [markup.goldmark.renderer]
 unsafe = true
@@ -21,13 +23,13 @@ unsafe = true
   homeLayout = "magazine"
   dateFormat = "02 Jan 2006"
 
+  # 👇 Blowfish si aspetta stringhe, non una mappa
+  logo = "images/logo.svg"
+  logoDark = "images/logo.svg"
+  logoWidth = 140
+
   [params.footer]
     showPoweredBy = false
-
-  [params.logo]
-    logo = "images/logo.svg"
-    logoDark = "images/logo.svg"
-    logoWidth = 140
 
 [menu]
   [[menu.main]]
