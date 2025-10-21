@@ -15,15 +15,15 @@ def save_post(title, body, schema=None, tags=None):
     cover_url = f"https://picsum.photos/seed/{slug}/1200/630"
 
     front = fm(
-        title=title,
-        date=datetime.datetime.utcnow().isoformat(timespec='seconds') + 'Z',
-        draft=False,
-        tags=tags or [],
-        categories=['Guide'],
-        description=title,
-        images=[cover_url],     # PaperMod usa questo per og:image e cover override
-        cover=cover_url         # teniamo anche stringa per compatibilità
-    )
+    title=title,
+    date=...,
+    draft=False,
+    tags=tags or [],
+    categories=['Guide'],
+    description=title,
+    images=[cover_url],     # PaperMod usa questo per og:image e cover
+    cover=cover_url
+)
 
     content = front + f"![{title}]({cover_url})\n\n" + body
     if schema:
