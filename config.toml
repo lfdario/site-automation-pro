@@ -30,19 +30,19 @@ relativeURLs = false
 [menu]
   [[menu.main]]
     name = "Articoli"
-    url  = "/posts/"
+    url  = "posts/"        # <-- senza slash iniziale
     weight = 1
   [[menu.main]]
     name = "Categorie"
-    url  = "/categories/"
+    url  = "categories/"   # <-- senza slash iniziale
     weight = 2
   [[menu.main]]
     name = "Tag"
-    url  = "/tags/"
+    url  = "tags/"         # <-- senza slash iniziale
     weight = 3
   [[menu.main]]
     name = "Dashboard"
-    url  = "/dashboard/"
+    url  = "dashboard/"    # <-- senza slash iniziale
     weight = 4
 
 [outputs]
