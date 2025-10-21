@@ -1,0 +1,22 @@
+{{/* Override PaperMod: gestisce cover sia come stringa che come oggetto { image, alt } */}}
+
+{{- $cxt := or (.cxt) . -}}
+{{- $isSingle := or (.IsSingle) false -}}
+{{- $isHidden := or (.isHidden) false -}}
+{{- $cover := $cxt.Params.cover -}}
+
+{{- $img := "" -}}
+{{- $alt := $cxt.Title -}}
+
+{{- if (isString $cover) -}}
+  {{- $img = $cover -}}
+{{- else if $cover -}}
+  {{- $img = $cover.image -}}
+  {{- with $cover.alt }}{{ $alt = . }}{{ end -}}
+{{- end -}}
+
+{{- if and (not $isHidden) $img -}}
+  <figure class="post-cover">
+    <img src="{{ $img }}" alt="{{ $alt }}" loading="lazy" />
+  </figure>
+{{- end -}}
