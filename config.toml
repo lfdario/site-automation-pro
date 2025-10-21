@@ -1,55 +1,56 @@
 baseURL = "https://lfdario.github.io/site-automation-pro/"
-languageCode = "it-it"
-title = "Auto — Novità, Prove & Guide"
-theme = "PaperMod"
-canonifyURLs = true
-relativeURLs = false
+title = "Motori • News, Prove, Elettrico"
+theme = "blowfish"
+languageCode = "it"
+paginate = 12
 
-[pagination]
-  pagerSize = 12
+[markup.goldmark.renderer]
+unsafe = true
 
 [taxonomies]
-  category = "categories"
   tag = "tags"
-
-[permalinks]
-  posts = "/posts/:slug/"
+  category = "categories"
 
 [params]
+  colorScheme = "auto"          # dark/light automatico
   defaultTheme = "auto"
-  ShowReadingTime = true
-  ShowShareButtons = true
-  ShowPostNavLinks = true
-  ShowBreadCrumbs = true
-  ShowToc = true
-  ShowWordCount = true
-  ShowCodeCopyButtons = true
-  DateFormat = "02 Jan 2006"
-  env = "production"
-  # googleAnalytics = "G-XXXXXXXXXX"  # opzionale
-  homeInfoParams = { Title = "Auto — Novità, Prove & Guide", Content = "Approfondimenti su novità auto, elettrico, prove su strada, manutenzione e consigli d'acquisto. Articoli nuovi ogni giorno 🇮🇹." }
+  showAuthor = true
+  showReadingTime = true
+  showPostNavLinks = true
+  enableSearch = true
+  homeLayout = "magazine"
+  dateFormat = "02 Jan 2006"
+
+  [params.footer]
+    showPoweredBy = false
+
+  [params.logo]
+    logo = "images/logo.svg"
+    logoDark = "images/logo.svg"
+    logoWidth = 140
 
 [menu]
   [[menu.main]]
-    name = "Articoli"
-    url  = "posts/"
+    name = "Ultime"
+    url = "/"
     weight = 1
   [[menu.main]]
-    name = "Categorie"
-    url  = "categories/"
+    name = "Prove"
+    url = "/categories/prove/"
     weight = 2
   [[menu.main]]
-    name = "Tag"
-    url  = "tags/"
+    name = "Guide"
+    url = "/categories/guide/"
     weight = 3
-  # Niente voce Dashboard nel menu: la nascondiamo
+  [[menu.main]]
+    name = "Elettrico"
+    url = "/categories/elettrico/"
+    weight = 4
+  [[menu.main]]
+    name = "Mercato"
+    url = "/categories/mercato/"
+    weight = 5
 
-[outputs]
-  home = ["HTML", "RSS", "JSON"]
-
-[markup]
-  [markup.goldmark]
-    [markup.goldmark.renderer]
-      unsafe = true
-
-ignoreLogs = ['warning-goldmark-raw-html']
+# CSS custom
+[params.assets]
+  customCSS = ["css/custom.css"]
