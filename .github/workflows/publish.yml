@@ -3,9 +3,14 @@ name: Publish Site
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 5 * * *"   # 07:00 CET giornaliero (GitHub usa UTC)
+    - cron: "0 5 * * *"   # 07:00 CET circa (GitHub usa UTC)
   push:
     branches: ["main"]
+
+# Evita build sovrapposte (es. più push ravvicinati)
+concurrency:
+  group: site-automation-pro-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -24,17 +29,33 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+          cache: "pip"
 
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # ✅ Qui passa anche UNSPLASH_ACCESS_KEY allo script
       - name: Generate posts
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
         run: |
           python -m scripts.generate_posts --count 6
+
+      # 🔎 (Opzionale) Test rapido chiave Unsplash: non stampa la chiave, solo lo status
+      - name: Test Unsplash key (optional)
+        if: ${{ env.UNSPLASH_ACCESS_KEY != '' }}
+        run: |
+          CODE=$(curl -sS -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Client-ID ${UNSPLASH_ACCESS_KEY}" \
+            "https://api.unsplash.com/search/photos?query=cars&per_page=1")
+          if [ "$CODE" != "200" ]; then
+            echo "Unsplash API check failed with HTTP $CODE"
+            exit 1
+          fi
+          echo "Unsplash API reachable ✅"
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
