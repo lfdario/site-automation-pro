@@ -2,9 +2,11 @@ baseURL = "https://lfdario.github.io/site-automation-pro/"
 languageCode = "it-it"
 title = "Guida Tech & AI — Italia"
 theme = "PaperMod"
-paginate = 12
 canonifyURLs = true
 relativeURLs = false
+
+[pagination]
+  pagerSize = 12
 
 [params]
   defaultTheme = "auto"
@@ -15,10 +17,10 @@ relativeURLs = false
   ShowToc = true
   ShowWordCount = true
   ShowCodeCopyButtons = true
-  comments = false
-  images = []
   DateFormat = "02 Jan 2006"
   env = "production"
+  # Se hai GA4, inserisci il tuo Measurement ID qui sotto:
+  # googleAnalytics = "G-XXXXXXXXXX"
 
   homeInfoParams = { Title = "Guida Tech & AI — Italia", Content = "Guide pratiche su tecnologia, AI e risparmio digitale. Articoli nuovi ogni giorno, in italiano 🇮🇹." }
 
