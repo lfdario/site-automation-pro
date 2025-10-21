@@ -1,6 +1,6 @@
 baseURL = "https://lfdario.github.io/site-automation-pro/"
 languageCode = "it-it"
-title = "Guida Tech & AI — Italia"
+title = "Auto — Novità, Prove & Guide"
 theme = "PaperMod"
 canonifyURLs = true
 relativeURLs = false
@@ -11,6 +11,9 @@ relativeURLs = false
 [taxonomies]
   category = "categories"
   tag = "tags"
+
+[permalinks]
+  posts = "/posts/:slug/"
 
 [params]
   defaultTheme = "auto"
@@ -24,35 +27,29 @@ relativeURLs = false
   DateFormat = "02 Jan 2006"
   env = "production"
   # googleAnalytics = "G-XXXXXXXXXX"  # opzionale
-
-  homeInfoParams = { Title = "Guida Tech & AI — Italia", Content = "Guide pratiche su tecnologia, AI e risparmio digitale. Articoli nuovi ogni giorno 🇮🇹." }
+  homeInfoParams = { Title = "Auto — Novità, Prove & Guide", Content = "Approfondimenti su novità auto, elettrico, prove su strada, manutenzione e consigli d'acquisto. Articoli nuovi ogni giorno 🇮🇹." }
 
 [menu]
   [[menu.main]]
     name = "Articoli"
-    url  = "posts/"        # <-- senza slash iniziale
+    url  = "posts/"
     weight = 1
   [[menu.main]]
     name = "Categorie"
-    url  = "categories/"   # <-- senza slash iniziale
+    url  = "categories/"
     weight = 2
   [[menu.main]]
     name = "Tag"
-    url  = "tags/"         # <-- senza slash iniziale
+    url  = "tags/"
     weight = 3
-  [[menu.main]]
-    name = "Dashboard"
-    url  = "dashboard/"    # <-- senza slash iniziale
-    weight = 4
+  # Niente voce Dashboard nel menu: la nascondiamo
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
 
-# --- Abilita HTML inline nei contenuti (es. la dashboard) ---
 [markup]
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
 
-# Sopprime i warning "Raw HTML omitted"
 ignoreLogs = ['warning-goldmark-raw-html']
