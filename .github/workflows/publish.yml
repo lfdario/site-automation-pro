@@ -42,13 +42,13 @@ jobs:
           hugo-version: '0.133.0'
           extended: true
 
-      - name: Fetch Hugo theme (ananke)
+            - name: Fetch Hugo theme (PaperMod)
         run: |
-          rm -rf themes/ananke
-          git clone --depth=1 https://github.com/theNewDynamic/gohugo-theme-ananke themes/ananke
+          rm -rf themes/PaperMod
+          git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod themes/PaperMod
 
       - name: Build site
-        run: hugo --minify
+        run: hugo --minify -b "https://lfdario.github.io/site-automation-pro/"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
