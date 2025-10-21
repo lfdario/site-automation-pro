@@ -1,9 +1,12 @@
 name: Update Dashboard Metrics
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "0 */3 * * *"   # ogni 3 ore
-  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   metrics:
@@ -16,7 +19,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install deps
         run: |
@@ -37,16 +40,17 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: '0.133.0'
+          hugo-version: "0.146.0"
           extended: true
 
-      - name: Theme
+      - name: Theme (PaperMod)
         run: |
-          rm -rf themes/ananke
-          git clone --depth=1 https://github.com/theNewDynamic/gohugo-theme-ananke themes/ananke
+          rm -rf themes/PaperMod
+          git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod themes/PaperMod
 
       - name: Build
-        run: hugo --minify
+        run: |
+          hugo --minify -b "https://lfdario.github.io/site-automation-pro/"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
