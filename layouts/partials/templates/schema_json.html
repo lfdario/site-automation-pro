@@ -1,0 +1,50 @@
+{{/* Override PaperMod - schema_json: compatibile con cover stringa o assente.
+     Strategia immagine:
+       1) Usa .Params.images[0] se presente
+       2) Altrimenti usa .Params.cover se è una stringa URL
+*/}}
+
+{{- $ctx := . -}}
+{{- $img := "" -}}
+
+{{- with $ctx.Params.images -}}
+  {{- if gt (len .) 0 -}}
+    {{- $img = index . 0 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $img -}}
+  {{- $cover := $ctx.Params.cover -}}
+  {{- if $cover -}}
+    {{- $coverStr := printf "%v" $cover -}}
+    {{- if or (hasPrefix $coverStr "http://") (hasPrefix $coverStr "https://") -}}
+      {{- $img = $coverStr -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if .IsPage -}}
+  {{- $data := dict
+      "@context" "https://schema.org"
+      "@type"    "Article"
+      "mainEntityOfPage" (dict "@type" "WebPage" "@id" .Permalink)
+      "headline" .Title
+      "datePublished" (.PublishDate | default .Date)
+      "dateModified"  .Lastmod
+      "author"   (dict "@type" "Person" "name" (.Site.Params.Author | default .Site.Title))
+      "publisher" (dict "@type" "Organization" "name" .Site.Title)
+    -}}
+  {{- if $img -}}
+    {{- $data = merge $data (dict "image" (slice $img)) -}}
+  {{- end -}}
+
+  <script type="application/ld+json">{{ $data | jsonify }}</script>
+{{- else -}}
+  {{- $site := dict
+      "@context" "https://schema.org"
+      "@type"    "WebSite"
+      "name"     .Site.Title
+      "url"      .Site.BaseURL
+    -}}
+  <script type="application/ld+json">{{ $site | jsonify }}</script>
+{{- end -}}
