@@ -12,9 +12,7 @@ def save_post(title, body, schema=None, tags=None):
     dest = ROOT / 'content' / 'posts' / f'{slug}.md'
     dest.parent.mkdir(parents=True, exist_ok=True)
 
-    # Cover remota automatica con seed = slug (PaperMod vuole un oggetto cover.image)
     cover_url = f"https://picsum.photos/seed/{slug}/1200/630"
-    cover_obj = {"image": cover_url, "alt": title}
 
     front = fm(
         title=title,
@@ -23,8 +21,8 @@ def save_post(title, body, schema=None, tags=None):
         tags=tags or [],
         categories=['Guide'],
         description=title,
-        cover=cover_obj,
-        images=[cover_url],  # PaperMod usa questo per og:image
+        images=[cover_url],     # PaperMod usa questo per og:image e cover override
+        cover=cover_url         # teniamo anche stringa per compatibilità
     )
 
     content = front + f"![{title}]({cover_url})\n\n" + body
