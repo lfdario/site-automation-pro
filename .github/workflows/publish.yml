@@ -34,7 +34,7 @@ jobs:
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
-          python -m scripts.generate_posts --count 4
+          python -m scripts.generate_posts --count 6
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
