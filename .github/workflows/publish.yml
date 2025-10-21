@@ -3,11 +3,10 @@ name: Publish Site
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 5 * * *"   # 07:00 CET circa (GitHub usa UTC)
+    - cron: "0 5 * * *"   # 07:00 CET (GitHub usa UTC)
   push:
     branches: ["main"]
 
-# Evita build sovrapposte (es. più push ravvicinati)
 concurrency:
   group: site-automation-pro-${{ github.ref }}
   cancel-in-progress: true
@@ -36,7 +35,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ✅ Qui passa anche UNSPLASH_ACCESS_KEY allo script
       - name: Generate posts
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -44,7 +42,7 @@ jobs:
         run: |
           python -m scripts.generate_posts --count 6
 
-      # 🔎 (Opzionale) Test rapido chiave Unsplash: non stampa la chiave, solo lo status
+      # (Opzionale) Sanity check sulla chiave Unsplash
       - name: Test Unsplash key (optional)
         if: ${{ env.UNSPLASH_ACCESS_KEY != '' }}
         run: |
@@ -63,10 +61,10 @@ jobs:
           hugo-version: "0.146.0"
           extended: true
 
-      - name: Fetch Hugo theme (PaperMod)
+      - name: Fetch Hugo theme (Blowfish)
         run: |
-          rm -rf themes/PaperMod
-          git clone --depth=1 https://github.com/adityatelange/hugo-PaperMod themes/PaperMod
+          rm -rf themes/blowfish
+          git clone --depth=1 https://github.com/nunocoracao/blowfish themes/blowfish
 
       - name: Build
         run: |
