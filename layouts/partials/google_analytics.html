@@ -1,11 +1,10 @@
-{{/* PaperMod: GA4 compat o silenzioso se non configurato */}}
-{{- $ga := .Site.Params.googleAnalytics | default (getenv "GA4_PROPERTY_ID") -}}
-{{- if $ga }}
-  <script async src="https://www.googletagmanager.com/gtag/js?id={{ $ga }}"></script>
+{{/* GA4 per PaperMod: stampa solo se configurato in config.toml -> params.googleAnalytics */}}
+{{ with .Site.Params.googleAnalytics }}
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', '{{ $ga }}');
+    gtag('config', '{{ . }}');
   </script>
-{{- end -}}
+{{ end }}
