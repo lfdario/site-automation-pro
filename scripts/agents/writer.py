@@ -64,37 +64,43 @@ In media 10–20 minuti, dipende dal dispositivo.
 Nella maggior parte dei casi sì; se incontri problemi, prova gli step nella sezione “Errori comuni”.
 """
 
-def generate_article(title, keywords, model='gpt-4o-mini', min_words=1500, max_words=2200, tone='chiaro e pratico'):
+def generate_article(title, keywords, model='gpt-4o-mini', min_words=1900, max_words=2600, tone='chiaro, autorevole e pratico'):
     api_key = os.environ.get('OPENAI_API_KEY','').strip()
     if not api_key:
         return _template_body(title), None
     try:
         client = OpenAI(api_key=api_key)
         sys_prompt = (
-            f"Sei un redattore tecnico italiano. Scrivi articoli autorevoli e pratici. "
+            f"Sei un redattore tecnico italiano senior. Scrivi articoli approfonditi e affidabili. "
             f"Stile {tone}. Lunghezza {min_words}-{max_words} parole. "
-            "Usa H2/H3, liste puntate, esempi, e 4-6 FAQ concise. "
-            "Inserisci una checklist finale. Scrivi in italiano naturale."
+            "Usa H2/H3 descrittivi, esempi concreti, liste puntate, tabelle quando utili, e 5-7 FAQ specifiche. "
+            "Aggiungi una checklist finale operativa. Inserisci link interni con //anchor text// fittizi (verranno sostituiti). "
+            "Evita frasi vaghe e ripetitive; prediligi istruzioni verificabili."
         )
         user_prompt = (
             f"Titolo: {title}\n"
             f"Parole chiave: {', '.join(keywords)}\n"
-            "Scrivi un articolo completo per un blog italiano. "
-            "Evita sensazionalismi. Includi passaggi numerati, note di compatibilità (Windows/macOS/Android/iOS se pertinenti), "
-            "errori comuni e soluzioni. Non inventare dati non verificabili."
+            "Scrivi in italiano naturale. Includi:\n"
+            "- Sommario iniziale (3-5 bullet su cosa imparerà il lettore)\n"
+            "- Sezione 'Prima di iniziare' con prerequisiti/compatibilità\n"
+            "- Procedura passo-passo chiara e numerata\n"
+            "- Errori comuni e soluzioni\n"
+            "- Sezione ottimizzazioni/approfondimenti (consigli esperti)\n"
+            "- 5-7 FAQ puntuali, non generiche\n"
+            "Evita affermazioni non verificabili. Niente fluff."
         )
         resp = client.responses.create(
             model=model,
             input=[{"role":"system","content":sys_prompt},
                    {"role":"user","content":user_prompt}],
-            temperature=0.7
+            temperature=0.6
         )
         body = getattr(resp, "output_text", "") or _template_body(title)
         schema = {
             "@context":"https://schema.org","@type":"FAQPage",
             "mainEntity":[
-                {"@type":"Question","name":"Quali sono i passaggi principali?","acceptedAnswer":{"@type":"Answer","text":"Segui i passaggi descritti."}},
-                {"@type":"Question","name":"Quanto tempo richiede?","acceptedAnswer":{"@type":"Answer","text":"In media 10–20 minuti, dipende dal dispositivo."}}
+                {"@type":"Question","name":"Qual è il procedimento consigliato?","acceptedAnswer":{"@type":"Answer","text":"Segui i passaggi descritti con attenzione."}},
+                {"@type":"Question","name":"Quali errori evitare?","acceptedAnswer":{"@type":"Answer","text":"Consulta la sezione 'Errori comuni'."}}
             ]
         }
         return body, schema
