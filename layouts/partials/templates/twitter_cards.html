@@ -1,0 +1,29 @@
+{{/* Override PaperMod: genera Twitter Cards senza assumere cover.image
+     Priorità:
+       1) .Params.images[0]
+       2) .Params.cover se è una stringa URL
+*/}}
+
+{{- $ctx := . -}}
+{{- $twimg := "" -}}
+
+{{- with $ctx.Params.images -}}
+  {{- if gt (len .) 0 -}}
+    {{- $twimg = index . 0 -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $twimg -}}
+  {{- $cover := $ctx.Params.cover -}}
+  {{- if $cover -}}
+    {{- $coverStr := printf "%v" $cover -}}
+    {{- if or (hasPrefix $coverStr "http://") (hasPrefix $coverStr "https://") -}}
+      {{- $twimg = $coverStr -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Title }}{{ end }}">
+{{- if $twimg }}<meta name="twitter:image" content="{{ $twimg }}">{{ end -}}
