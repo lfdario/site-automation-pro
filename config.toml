@@ -1,4 +1,6 @@
-baseURL = "https://lfdario.github.io/site-automation-pro/"
+baseURL = "https://lfdario.github.io/site-automation-pro/"  # ← esatta, con slash finale
+canonifyURLs = true
+relativeURLs = true
 title = "Motori • News, Prove, Elettrico"
 theme = "blowfish"
 languageCode = "it"
