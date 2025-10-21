@@ -3,7 +3,7 @@ name: Publish Site
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 5 * * *"   # 07:00 CET giornaliero
+    - cron: "0 5 * * *"   # 07:00 CET giornaliero (GitHub usa UTC)
   push:
     branches: ["main"]
 
@@ -30,11 +30,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
- - name: Generate posts
-  env:
-    OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  run: |
-    python -m scripts.generate_posts --count 4
+      - name: Generate posts
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python -m scripts.generate_posts --count 4
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
