@@ -2,7 +2,6 @@ import os
 from openai import OpenAI
 
 def _template_body(title):
-    # Template ricco (1200+ parole) per quando l'IA non è disponibile
     return f"""## Introduzione
 In questa guida pratica su **{title}** trovi una procedura affidabile, verifiche rapide e soluzioni ai problemi più comuni.
 La guida è pensata per utenti alle prime armi ma utile anche a chi è più esperto.
