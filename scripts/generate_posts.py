@@ -9,7 +9,7 @@ from textwrap import dedent
 from openai import OpenAI
 from scripts.unsplash_helper import fetch_unsplash_image
 
-# Argomenti a tema automotive
+# Categorie principali in stile magazine
 CATEGORIES = [
     ("news",      ["novità modelli", "saloni auto", "tecnologia", "ADAS", "motorsport"]),
     ("prove",     ["prova su strada", "test drive", "handling", "consumi reali", "interni"]),
@@ -33,17 +33,21 @@ TOPICS = [
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
 
+
 def pick_topic_and_category():
     category, _ = random.choice(CATEGORIES)
     topic = random.choice(TOPICS)
     return topic, category
 
+
 def to_slug(s: str) -> str:
     s = s.strip().lower().replace(" ", "-")
     return "".join(c for c in s if c.isalnum() or c in "-_")
 
+
 def already_exists(out_dir: pathlib.Path, slug: str) -> bool:
     return (out_dir / f"{slug}.md").exists()
+
 
 def build_prompt(topic: str, category: str) -> str:
     return dedent(f"""
@@ -58,6 +62,7 @@ def build_prompt(topic: str, category: str) -> str:
     - Non usare markup HTML, solo Markdown.
     """)
 
+
 def generate_article(client: OpenAI, topic: str, category: str) -> str:
     prompt = build_prompt(topic, category)
     resp = client.chat.completions.create(
@@ -67,13 +72,14 @@ def generate_article(client: OpenAI, topic: str, category: str) -> str:
     )
     return resp.choices[0].message.content.strip()
 
+
 def write_post(topic: str, category: str, body: str, image_path: str | None, out_dir: pathlib.Path) -> pathlib.Path:
     out_dir.mkdir(parents=True, exist_ok=True)
     slug = to_slug(topic)
     date = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
     rel_img = image_path.replace("static/", "/") if image_path else ""
 
-    # Mettiamo featured su alcune categorie per popolare la hero
+    # featured sulle categorie che vogliamo in hero
     featured = "true" if category in ("news", "elettrico") else "false"
 
     front = f"""---
@@ -91,6 +97,7 @@ featured: {featured}
     fp = out_dir / f"{slug}.md"
     fp.write_text(front + "\n" + body + "\n", encoding="utf-8")
     return fp
+
 
 def main():
     parser = argparse.ArgumentParser()

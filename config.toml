@@ -12,7 +12,7 @@ unsafe = true
   category = "categories"
 
 [params]
-  colorScheme = "auto"          # dark/light automatico
+  colorScheme = "auto"
   defaultTheme = "auto"
   showAuthor = true
   showReadingTime = true
@@ -51,6 +51,5 @@ unsafe = true
     url = "/categories/mercato/"
     weight = 5
 
-# CSS custom
 [params.assets]
   customCSS = ["css/custom.css"]
