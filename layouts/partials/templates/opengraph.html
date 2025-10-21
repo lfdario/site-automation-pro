@@ -1,17 +1,24 @@
-{{/* Override PaperMod OG tags: supporta cover come stringa o come oggetto */}}
-{{- $ctx := . -}}
+{{/* Override sicuro per OG tags:
+     - Usa .Params.images[0] se presente
+     - Altrimenti tenta .Params.cover se stringa URL
+     - Evita accessi a .Params.cover.image (no crash) */}}
 
+{{- $ctx := . -}}
 {{- $ogimg := "" -}}
-{{- with $ctx.Params.images }}
-  {{- if gt (len .) 0 }}{{ $ogimg = index . 0 }}{{ end -}}
+
+{{- with $ctx.Params.images -}}
+  {{- if gt (len .) 0 -}}
+    {{- $ogimg = index . 0 -}}
+  {{- end -}}
 {{- end -}}
 
 {{- if not $ogimg -}}
   {{- $cover := $ctx.Params.cover -}}
-  {{- if (isString $cover) -}}
-    {{- $ogimg = $cover -}}
-  {{- else if $cover -}}
-    {{- $ogimg = $cover.image -}}
+  {{- if $cover -}}
+    {{- $coverStr := printf "%v" $cover -}}
+    {{- if or (hasPrefix $coverStr "http://") (hasPrefix $coverStr "https://") -}}
+      {{- $ogimg = $coverStr -}}
+    {{- end -}}
   {{- end -}}
 {{- end -}}
 
