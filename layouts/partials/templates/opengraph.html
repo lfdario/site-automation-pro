@@ -1,0 +1,22 @@
+{{/* Override PaperMod OG tags: supporta cover come stringa o come oggetto */}}
+{{- $ctx := . -}}
+
+{{- $ogimg := "" -}}
+{{- with $ctx.Params.images }}
+  {{- if gt (len .) 0 }}{{ $ogimg = index . 0 }}{{ end -}}
+{{- end -}}
+
+{{- if not $ogimg -}}
+  {{- $cover := $ctx.Params.cover -}}
+  {{- if (isString $cover) -}}
+    {{- $ogimg = $cover -}}
+  {{- else if $cover -}}
+    {{- $ogimg = $cover.image -}}
+  {{- end -}}
+{{- end -}}
+
+<meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Title }}{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{- if $ogimg }}<meta property="og:image" content="{{ $ogimg }}">{{ end -}}
