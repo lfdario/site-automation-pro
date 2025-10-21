@@ -1,13 +1,12 @@
-import pathlib, json, datetime
+import pathlib, json
+from datetime import datetime, timezone
 from slugify import slugify
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
 def _sanitize(obj):
-    """Rende l'oggetto serializzabile in YAML/JSON (niente Ellipsis, Path, set, ecc.)."""
     import datetime as _dt
     from pathlib import Path
-
     if obj is Ellipsis:
         return None
     if obj is None or isinstance(obj, (bool, int, float, str)):
@@ -15,15 +14,13 @@ def _sanitize(obj):
     if isinstance(obj, (list, tuple)):
         return [_sanitize(x) for x in obj]
     if isinstance(obj, set):
-        return [_sanitize(x) for x in sorted(obj)]
+        return sorted([_sanitize(x) for x in obj])
     if isinstance(obj, dict):
         return {str(k): _sanitize(v) for k, v in obj.items()}
     if isinstance(obj, (Path, pathlib.PurePath)):
         return str(obj)
     if isinstance(obj, (_dt.date, _dt.datetime)):
-        # ISO 8601
         return obj.isoformat()
-    # fallback: stringa sicura
     try:
         return str(obj)
     except Exception:
@@ -34,28 +31,29 @@ def fm(**kwargs):
     clean = _sanitize(kwargs)
     return "---\n" + _y.safe_dump(clean, sort_keys=False, allow_unicode=True) + "---\n\n"
 
-def save_post(title, body, schema=None, tags=None):
-    from datetime import datetime, timezone
-
+def save_post(title, body, schema=None, tags=None, refs=None):
     slug = slugify(str(title or "articolo"))
     dest = ROOT / 'content' / 'posts' / f'{slug}.md'
     dest.parent.mkdir(parents=True, exist_ok=True)
 
-    # Cover remota automatica (PaperMod legge anche params.images[0])
     cover_url = f"https://picsum.photos/seed/{slug}/1200/630"
 
     front = fm(
         title=str(title or "Articolo"),
         date=datetime.now(timezone.utc).isoformat(timespec='seconds'),
         draft=False,
-        tags=_sanitize(tags) or [],
-        categories=['Guide'],
+        tags=_sanitize(tags) or ["auto"],
+        categories=["Auto","Guide"],
         description=str(title or ""),
-        images=[cover_url],
-        cover=cover_url
+        images=[cover_url],   # PaperMod usa questo per og:image e cover
+        cover=cover_url,
+        sources=_sanitize(refs) or []
     )
 
     content = front + f"![{title}]({cover_url})\n\n" + (body or "")
+    # Aggiungi fonti alla fine (liste URL)
+    if refs:
+        content += "\n\n## Fonti\n" + "\n".join(f"- {u}" for u in refs)
     if schema:
         try:
             content += "\n\n<script type=\"application/ld+json\">" + json.dumps(_sanitize(schema), ensure_ascii=False) + "</script>\n"
