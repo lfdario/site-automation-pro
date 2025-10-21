@@ -1,28 +1,44 @@
-
 baseURL = "https://lfdario.github.io/site-automation-pro/"
 languageCode = "it-it"
 title = "Guida Tech & AI — Italia"
-theme = "ananke"
-
-# forza URL assoluti corretti
+theme = "PaperMod"
+paginate = 12
 canonifyURLs = true
-
-summaryLength = 30
-paginate = 10
-DefaultContentLanguage = "it"
-enableRobotsTXT = true
+relativeURLs = false
 
 [params]
-  description = "Guide pratiche su tecnologia, AI e risparmio digitale per utenti italiani. Articoli nuovi ogni giorno."
-  author = "Redazione Automatica"
-  background_color_class = "bg-near-white"
-  mainSections = ["posts"]
-  [params.ads]
-    insert_after_paragraphs = [2,5]
+  defaultTheme = "auto"
+  ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowToc = true
+  ShowWordCount = true
+  ShowCodeCopyButtons = true
+  comments = false
+  images = []
+  DateFormat = "02 Jan 2006"
+  env = "production"
 
-[markup]
-  [markup.goldmark.renderer]
-    unsafe = true
+  homeInfoParams = { Title = "Guida Tech & AI — Italia", Content = "Guide pratiche su tecnologia, AI e risparmio digitale. Articoli nuovi ogni giorno, in italiano 🇮🇹." }
+
+[menu]
+  [[menu.main]]
+    name = "Articoli"
+    url  = "/posts/"
+    weight = 1
+  [[menu.main]]
+    name = "Categorie"
+    url  = "/categories/"
+    weight = 2
+  [[menu.main]]
+    name = "Tag"
+    url  = "/tags/"
+    weight = 3
+  [[menu.main]]
+    name = "Dashboard"
+    url  = "/dashboard/"
+    weight = 4
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
