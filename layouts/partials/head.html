@@ -1,0 +1,4 @@
+{{/* Head override: abilita noindex/nofollow per pagine segnate con .Params.noindex */}}
+{{ if .Params.noindex }}
+  <meta name="robots" content="noindex,nofollow">
+{{ end }}
