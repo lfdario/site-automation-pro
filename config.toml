@@ -1,4 +1,4 @@
-baseURL = "https://lfdario.github.io/site-automation-pro/"  # ← slash finale ok
+baseURL = "https://lfdario.github.io/site-automation-pro/"
 canonifyURLs = true
 relativeURLs = false
 title = "Motori • News, Prove, Elettrico"
@@ -6,7 +6,7 @@ theme = "blowfish"
 languageCode = "it"
 
 [pagination]
-  pagerSize = 12  # ← al posto di 'paginate'
+  pagerSize = 12
 
 [markup.goldmark.renderer]
 unsafe = true
@@ -25,7 +25,7 @@ unsafe = true
   homeLayout = "magazine"
   dateFormat = "02 Jan 2006"
 
-  # Blowfish si aspetta STRINGHE, ok così
+  # Logo come STRINGHE (non mappa)
   logo = "images/logo.svg"
   logoDark = "images/logo.svg"
   logoWidth = 140
