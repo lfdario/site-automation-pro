@@ -1,22 +1,39 @@
-{{/* Override PaperMod: gestisce cover sia come stringa che come oggetto { image, alt } */}}
+{{/* Override sicuro per PaperMod:
+     - Preferisce .Params.images[0]
+     - Se non c'è, usa .Params.cover solo se è una stringa URL
+     - NON accede a .Params.cover.image (evita errori quando cover è stringa)
+*/}}
 
 {{- $cxt := or (.cxt) . -}}
-{{- $isSingle := or (.IsSingle) false -}}
 {{- $isHidden := or (.isHidden) false -}}
-{{- $cover := $cxt.Params.cover -}}
+{{- if not $isHidden -}}
 
-{{- $img := "" -}}
-{{- $alt := $cxt.Title -}}
+  {{- $img := "" -}}
 
-{{- if (isString $cover) -}}
-  {{- $img = $cover -}}
-{{- else if $cover -}}
-  {{- $img = $cover.image -}}
-  {{- with $cover.alt }}{{ $alt = . }}{{ end -}}
-{{- end -}}
+  {{/* 1) prova con .Params.images[0] */}}
+  {{- with $cxt.Params.images -}}
+    {{- if gt (len .) 0 -}}
+      {{- $img = index . 0 -}}
+    {{- end -}}
+  {{- end -}}
 
-{{- if and (not $isHidden) $img -}}
-  <figure class="post-cover">
-    <img src="{{ $img }}" alt="{{ $alt }}" loading="lazy" />
-  </figure>
+  {{/* 2) se vuoto, prova con .Params.cover SOLO se è stringa URL
+         (usiamo printf per ottenere una rappresentazione stringa inoffensiva) */}}
+  {{- if not $img -}}
+    {{- $cover := $cxt.Params.cover -}}
+    {{- if $cover -}}
+      {{- $coverStr := printf "%v" $cover -}}
+      {{- if or (hasPrefix $coverStr "http://") (hasPrefix $coverStr "https://") -}}
+        {{- $img = $coverStr -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+
+  {{/* 3) stampa l'immagine se disponibile */}}
+  {{- if $img -}}
+    <figure class="post-cover">
+      <img src="{{ $img }}" alt="{{ $cxt.Title }}" loading="lazy" />
+    </figure>
+  {{- end -}}
+
 {{- end -}}
