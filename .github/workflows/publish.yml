@@ -66,6 +66,10 @@ jobs:
           rm -rf themes/blowfish
           git clone --depth=1 https://github.com/nunocoracao/blowfish themes/blowfish
 
+      - name: Clean Hugo resources
+        run: |
+          rm -rf resources
+
       - name: Build
         run: |
           hugo --minify -b "https://lfdario.github.io/site-automation-pro/"
