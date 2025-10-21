@@ -1,7 +1,6 @@
 {{/* Override sicuro per PaperMod:
      - Preferisce .Params.images[0]
      - Se non c'è, usa .Params.cover solo se è una stringa URL
-     - NON accede a .Params.cover.image (evita errori quando cover è stringa)
 */}}
 
 {{- $cxt := or (.cxt) . -}}
@@ -17,8 +16,7 @@
     {{- end -}}
   {{- end -}}
 
-  {{/* 2) se vuoto, prova con .Params.cover SOLO se è stringa URL
-         (usiamo printf per ottenere una rappresentazione stringa inoffensiva) */}}
+  {{/* 2) fallback con .Params.cover se è stringa URL */}}
   {{- if not $img -}}
     {{- $cover := $cxt.Params.cover -}}
     {{- if $cover -}}
@@ -29,7 +27,6 @@
     {{- end -}}
   {{- end -}}
 
-  {{/* 3) stampa l'immagine se disponibile */}}
   {{- if $img -}}
     <figure class="post-cover">
       <img src="{{ $img }}" alt="{{ $cxt.Title }}" loading="lazy" />
