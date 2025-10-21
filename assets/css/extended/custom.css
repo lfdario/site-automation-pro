@@ -1,0 +1,33 @@
+/* ——— Card stile “magazine” ——— */
+.post-entry {
+  border: 1px solid #eee;
+  border-radius: 14px;
+  padding: 14px;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.post-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.06);
+  border-color: #e6e6e6;
+}
+
+/* ——— Titoli e meta più leggibili ——— */
+.single-title, h1 { letter-spacing: .2px; }
+.post-title { line-height: 1.25; }
+.post-meta { opacity: .78; }
+
+/* ——— Spaziature liste e sezioni ——— */
+.post-content ul, .post-content ol { margin-top: .6rem; margin-bottom: 1rem; }
+.post-content h2 { margin-top: 1.6rem; }
+.post-content h3 { margin-top: 1.2rem; }
+
+/* ——— Immagine di copertina più morbida ——— */
+.post-cover img {
+  border-radius: 14px;
+}
+
+/* ——— Griglia home leggermente più densa ——— */
+.posts-group .post-entry { margin-bottom: 16px; }
+
+/* ——— Table of Contents più compatto ——— */
+.toc .inner { font-size: .95rem; }
