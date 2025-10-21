@@ -23,8 +23,7 @@ relativeURLs = false
   ShowCodeCopyButtons = true
   DateFormat = "02 Jan 2006"
   env = "production"
-  # Inserisci qui il tuo GA4 se lo hai
-  # googleAnalytics = "G-XXXXXXXXXX"
+  # googleAnalytics = "G-XXXXXXXXXX"  # opzionale
 
   homeInfoParams = { Title = "Guida Tech & AI — Italia", Content = "Guide pratiche su tecnologia, AI e risparmio digitale. Articoli nuovi ogni giorno 🇮🇹." }
 
@@ -48,3 +47,12 @@ relativeURLs = false
 
 [outputs]
   home = ["HTML", "RSS", "JSON"]
+
+# --- Abilita HTML inline nei contenuti (es. la dashboard) ---
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+# Sopprime i warning "Raw HTML omitted"
+ignoreLogs = ['warning-goldmark-raw-html']
