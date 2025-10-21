@@ -1,4 +1,3 @@
-# scripts/unsplash_helper.py
 import os
 import pathlib
 import random
@@ -21,7 +20,7 @@ def fetch_unsplash_image(query: str, out_dir: str = "static/images") -> str | No
     r = requests.get(
         "https://api.unsplash.com/search/photos",
         headers={"Authorization": f"Client-ID {UNSPLASH_KEY}"},
-        params={"query": query, "orientation": "landscape", "per_page": 10},
+        params={"query": query, "orientation": "landscape", "per_page": 15},
         timeout=20,
     )
     r.raise_for_status()
@@ -32,12 +31,12 @@ def fetch_unsplash_image(query: str, out_dir: str = "static/images") -> str | No
         return None
 
     photo = random.choice(results)
-    # Usa l'URL "regular" o "full" a seconda delle esigenze
     img_url = photo["urls"]["regular"]
     img_id = photo["id"]
 
     # 2) Scarica immagine
-    img_path = pathlib.Path(out_dir) / f"{query.replace(' ','-')}-{img_id}.jpg"
+    safe_query = "".join(c if c.isalnum() or c in "-_" else "-" for c in query.lower().replace(" ", "-"))
+    img_path = pathlib.Path(out_dir) / f"{safe_query}-{img_id}.jpg"
     with requests.get(img_url, stream=True, timeout=60) as resp:
         resp.raise_for_status()
         with open(img_path, "wb") as f:
@@ -45,10 +44,9 @@ def fetch_unsplash_image(query: str, out_dir: str = "static/images") -> str | No
                 if chunk:
                     f.write(chunk)
 
-    # 3) (Facoltativo) Attribuzione richiesta dalle policy Unsplash
+    # 3) Attribuzione suggerita da Unsplash
     author = photo["user"]["name"]
     author_url = photo["user"]["links"]["html"]
     print(f"Foto: {img_path} — di {author} ({author_url}) via Unsplash")
 
-    # Ritorna il path relativo che poi userai nel front matter
     return str(img_path).replace("\\", "/")
