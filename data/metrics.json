@@ -1,0 +1,38 @@
+{
+  "updated_at": "2025-10-20T07:00:00Z",
+  "ga4": {
+    "days": [
+      "2025-09-21",
+      "2025-09-22"
+    ],
+    "users": [
+      0,
+      0
+    ],
+    "sessions": [
+      0,
+      0
+    ],
+    "pageviews": [
+      0,
+      0
+    ],
+    "totals": {
+      "users": 0,
+      "sessions": 0,
+      "pageviews": 0
+    }
+  },
+  "adsense": {
+    "days": [
+      "2025-09-21",
+      "2025-09-22"
+    ],
+    "revenue": [
+      0.0,
+      0.0
+    ],
+    "total_revenue": 0.0,
+    "currency": "EUR"
+  }
+}
